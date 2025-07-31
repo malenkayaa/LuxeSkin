@@ -1,0 +1,75 @@
+<!-- cart.html: компонент кошика для підключення на всі сторінки -->
+<style>
+  #cart-modal .modal-content {
+    border-radius: 18px;
+    box-shadow: 0 4px 32px rgba(226,149,181,0.12);
+  }
+  #cart-modal .modal-header {
+    border-bottom: none;
+    padding-bottom: 0.5rem;
+  }
+  #cart-modal .modal-title {
+    font-weight: 600;
+    color: #e295b5;
+  }
+  #cart-items > div {
+    background: #fff1e6;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(226,149,181,0.07);
+  }
+  #cart-items strong {
+    color: #e295b5;
+    font-weight: 500;
+  }
+  #cart-items button {
+    margin-left: 4px;
+  }
+  #checkout-form .input {
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border: 1px solid #e295b5;
+    padding: 8px 12px;
+    width: 100%;
+    font-size: 1rem;
+  }
+  #checkout-form .btn {
+    width: 100%;
+    margin-top: 4px;
+  }
+</style>
+<nav class="navbar fixed-top bg-white shadow-sm" style="border-radius:0 0 18px 18px;">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a class="brand" href="index.html" style="font-size:1.3rem;color:#e295b5;"><strong>LuxeSkin</strong></a>
+        <ul class="nav">
+            <li><a class="nav-link" href="about.html">Про нас</a></li>
+        </ul>
+        <button class="btn animated-btn d-flex align-items-center gap-1" id="cart-btn" style="font-weight:500;">
+            🛍 <span>Кошик</span> <span id="cart-count" class="badge bg-pink" style="background:#e295b5;color:#fff;">0</span>
+        </button>
+    </div>
+</nav>
+
+<!-- Модальне вікно кошика -->
+<div class="modal" id="cart-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ваш кошик</h5>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="cart-items"></div>
+            <div class="modal-footer">
+                <form id="checkout-form">
+                    <input type="text" class="input" placeholder="Ваше ім’я" required />
+                    <input type="tel" class="input" placeholder="Телефон" required />
+                    <button class="btn animated-btn">Оформити замовлення</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
