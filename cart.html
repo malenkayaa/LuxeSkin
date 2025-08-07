@@ -40,6 +40,24 @@
   #checkout-form .btn {
     width: 100%;
     margin-top: 4px;
+    .product-card__image-wrapper {
+
+  height: 200px; /* Фіксована висота для зображення */
+  width: 100%;
+  overflow: hidden; /* Обрізаємо зайву частину зображення */
+}
+
+.product-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Заповнюємо весь контейнер, зберігаючи пропорції */
+}
+.product-card__name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Обмежує текст двома рядками */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
   }
 </style>
 <nav class="navbar fixed-top bg-white shadow-sm" style="border-radius:0 0 18px 18px;">
