@@ -77,24 +77,26 @@ function renderProducts(category) {
 
   // Фільтри для акційної категорії
   if (category === 'sale') {
-    // Добавляем фильтр только если его нет
+    // Додаємо фільтр тільки якщо його ще немає
     if (!document.getElementById('sale-filter-bar')) {
       const filterBar = document.createElement('div');
-      filterBar.className = 'mb-3 d-flex gap-2 flex-wrap';
+      filterBar.className = 'sale-filter-bar mb-3';
       filterBar.id = 'sale-filter-bar';
       filterBar.innerHTML = `
-        <select id="sale-category-filter" class="form-select form-select-sm" style="max-width:180px;">
-          <option value="all">Всі категорії</option>
-          <option value="face">Обличчя</option>
-          <option value="hair">Волосся</option>
-          <option value="body">Тіло</option>
-          <option value="cosmetics">Косметика</option>
-        </select>
-        <select id="sale-discount-filter" class="form-select form-select-sm" style="max-width:180px;">
-          <option value="all">Всі знижки</option>
-          <option value="20">20% і більше</option>
-          <option value="15">15% і більше</option>
-        </select>
+        <div class="d-flex flex-wrap justify-content-center gap-3 w-100">
+          <select id="sale-category-filter" class="sale-filter-select form-select form-select-sm">
+            <option value="all">Всі категорії</option>
+            <option value="face">Обличчя</option>
+            <option value="hair">Волосся</option>
+            <option value="body">Тіло</option>
+            <option value="cosmetics">Косметика</option>
+          </select>
+          <select id="sale-discount-filter" class="sale-filter-select form-select form-select-sm">
+            <option value="all">Всі знижки</option>
+            <option value="20">20% і більше</option>
+            <option value="15">15% і більше</option>
+          </select>
+        </div>
       `;
       list.parentElement.insertBefore(filterBar, list);
 
