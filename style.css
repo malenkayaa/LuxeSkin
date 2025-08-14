@@ -1,3 +1,49 @@
+/* Вирівнювання елементів у картці товару */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 10px 10px 10px;
+  min-height: 0;
+  height: 100%;
+}
+.card-img-top {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  margin: 0 auto 14px auto;
+  box-shadow: 0 2px 12px rgba(226,149,181,0.10);
+  display: block;
+}
+.card-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e295b5;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.card-text {
+  color: #444;
+  font-size: 1.05rem;
+  margin-bottom: 0.7rem;
+  text-align: center;
+}
+.card .btn {
+  margin-top: 8px;
+  width: 90%;
+  max-width: 180px;
+  align-self: center;
+}
 /* Фільтри акційної категорії по центру */
 .sale-filter-bar {
   width: 100%;
