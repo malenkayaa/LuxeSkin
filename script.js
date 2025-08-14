@@ -16,10 +16,10 @@ const products = [
   { id: 14, name: 'Зволожувальний крем CeraVe Moisturizing Cream', price: 400, category: 'face', image: 'https://dnk.by/upload/iblock/a10/2ge3l9zq2t035rccg02ogkn7pdhap3o2.jpg' },
   { id: 15, name: 'Олія для тіла Ambre Vanille Bath and Body Oil', price: 950, category: 'body', image: 'https://storeesbeauty.com.ua/cdn/shop/files/AmbreVanilleBathandBodyOil.jpg?v=1697126530&width=600' },
   { id: 16, name: 'Палетка тіней Makeup Up Factory 20 Pro Effect Eye Palette Brown Selectio', price: 300, category: 'cosmetics', image: 'https://www.brocard.ua/media/catalog/product/cache/V188573270690/eyJ3Ijo1MDAsImgiOjUwMCwibyI6ImNhdGFsb2dcL3Byb2R1Y3RcL1wvNFwvMFwvNDA0NTkxNTk2MTg2OF8xLmpwZyJ9/make-up-factory-pro-effect.webp' },
-  { id: 17, name: 'Туш для вій Maybelline Lash Sensational Sky High', price: 170, category: 'cosmetics', image: 'https://ezebra.com.ua/hpeciai/e869d7bc2162e28ac485fec9212bd16f/ukr_pl_MAYBELLINE-LASH-SENSATIONAL-SKY-HIGH-TUSH-DLIA-VII-01-VERY-BLACK-7-2ML-126799_1.webp' },
   { id: 18, name: 'Молочко для тіла Neutrogena Hydro Boost', price: 400, category: 'body', image: 'https://pwa-api.eva.ua/img/512/512/resize/1/2/1207941_1_1753860378.jpg' },
   { id: 19, name: 'Сироватка незмивна L\'Oreal Paris Elseve Glycolic Gloss', price: 500, category: 'hair', image: 'https://img.auchan.ua/rx/q_90,ofmt_webp/auchan.ua/media/catalog/product/5/5/555daccf1bec19cfd84ebac1a468ab2e.jpeg' },
-  { id: 20, name: 'Блиск крем для губ KIKO Milano Lip', price: 980, category: 'cosmetics', image: 'https://isnuyou.com.ua/Media/shop-6580/F335C33A-1871-4C2A-93D4-5118491B89A7.jpeg' }
+  { id: 20, name: 'Блиск крем для губ KIKO Milano Lip', price: 980, category: 'cosmetics', image: 'https://isnuyou.com.ua/Media/shop-6580/F335C33A-1871-4C2A-93D4-5118491B89A7.jpeg' },
+  { id: 17, name: 'Туш для вій Maybelline Lash Sensational Sky High', price: 170, category: 'cosmetics', image: 'https://ezebra.com.ua/hpeciai/e869d7bc2162e28ac485fec9212bd16f/ukr_pl_MAYBELLINE-LASH-SENSATIONAL-SKY-HIGH-TUSH-DLIA-VII-01-VERY-BLACK-7-2ML-126799_1.webp' },
 ];
 
 let cart = [];
@@ -142,7 +142,6 @@ function renderProducts(category) {
           ${priceBlock}
           ${saleData ? `<div style="font-size:0.95em;color:#e295b5;margin-top:0px;">Акція до ${saleData.until}</div>` : ''}
           <button class="btn btn-outline-dark" onclick="addToCart(${product.id})">Додати</button>
-          
         </div>
       </div>
     `;
