@@ -140,8 +140,9 @@ function renderProducts(category) {
         <div class="card-body">
           <h5 class="card-title">${product.name}</h5>
           ${priceBlock}
+          ${saleData ? `<div style="font-size:0.95em;color:#e295b5;margin-top:0px;">Акція до ${saleData.until}</div>` : ''}
           <button class="btn btn-outline-dark" onclick="addToCart(${product.id})">Додати</button>
-          ${saleData ? `<div style="font-size:0.95em;color:#e295b5;margin-top:6px;">Акція до ${saleData.until}</div>` : ''}
+          
         </div>
       </div>
     `;
@@ -164,8 +165,9 @@ function renderSaleCards(arr) {
         <div class="card-body">
           <h5 class="card-title">${product.name}</h5>
           ${priceBlock}
+          <div style="font-size:0.95em;color:#e295b5;margin-top:0px;">Акція до ${product.until}</div>
           <button class="btn btn-outline-dark" onclick="addToCart(${product.id})">Додати</button>
-          <div style="font-size:0.95em;color:#e295b5;margin-top:6px;">Акція до ${product.until}</div>
+          
         </div>
       </div>
     `;
