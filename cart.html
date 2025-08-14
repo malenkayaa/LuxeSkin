@@ -63,12 +63,13 @@
 <nav class="navbar fixed-top bg-white shadow-sm" style="border-radius:0 0 18px 18px;">
     <div class="container d-flex align-items-center justify-content-between">
         <a class="brand" href="index.html" style="font-size:1.3rem;color:#e295b5;"><strong>LuxeSkin</strong></a>
-        <ul class="nav">
-            <li><a class="nav-link" href="about.html">Про нас</a></li>
-        </ul>
-        <button class="btn animated-btn d-flex align-items-center gap-1" id="cart-btn" style="font-weight:500;">
-            🛍 <span>Кошик</span> <span id="cart-count" class="badge bg-pink" style="background:#e295b5;color:#fff;">0</span>
-        </button>
+        <div class="d-flex align-items-center gap-2">
+            <a class="btn animated-btn" href="about.html" style="font-weight:500;">Про нас</a>
+            <a class="btn animated-btn" id="sale-btn" href="index.html#sale" style="font-weight:500;">Акції та знижки</a>
+            <button class="btn animated-btn d-flex align-items-center gap-1" id="cart-btn" style="font-weight:500;">
+                🛍 <span>Кошик</span> <span id="cart-count" class="badge bg-pink" style="background:#e295b5;color:#fff;">0</span>
+            </button>
+        </div>
     </div>
 </nav>
 
