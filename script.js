@@ -36,21 +36,134 @@ function saveCart() {
 }
 let currentCategory = 'cosmetics';
 
+// --- АКЦІЙНІ ТОВАРИ ---
+const saleProducts = [
+  // Обличчя
+  { id: 1, oldPrice: 850, price: 680, discount: 20, type: 'percent', category: 'face', label: 'Акція', until: '31.08.2025' },
+  { id: 5, oldPrice: 410, price: 350, discount: 15, type: 'percent', category: 'face', label: '-15%', until: '31.08.2025' },
+  // Волосся
+  { id: 2, oldPrice: 1250, price: 999, discount: 251, type: 'fixed', category: 'hair', label: 'Знижка', until: '31.08.2025' },
+  { id: 6, oldPrice: 900, price: 720, discount: 20, type: 'percent', category: 'hair', label: '-20%', until: '31.08.2025' },
+  // Тіло
+  { id: 4, oldPrice: 320, price: 256, discount: 20, type: 'percent', category: 'body', label: '-20%', until: '31.08.2025' },
+  { id: 8, oldPrice: 300, price: 255, discount: 15, type: 'percent', category: 'body', label: 'Акція', until: '31.08.2025' },
+  // Косметика
+  { id: 3, oldPrice: 280, price: 224, discount: 20, type: 'percent', category: 'cosmetics', label: '-20%', until: '31.08.2025' },
+  { id: 9, oldPrice: 250, price: 200, discount: 20, type: 'percent', category: 'cosmetics', label: 'Знижка', until: '31.08.2025' }
+];
+
+function getSaleProductData(id) {
+  return saleProducts.find(sp => sp.id === id);
+}
+
 function renderProducts(category) {
   currentCategory = category;
   const list = document.getElementById('product-list');
   list.innerHTML = '';
-  const filtered = products.filter(p => p.category === category);
+
+  // Удаляем старый фильтр, если он есть
+  const oldFilterBar = document.getElementById('sale-filter-bar');
+  if (oldFilterBar) oldFilterBar.remove();
+
+  let filtered = [];
+  if (category === 'sale') {
+    filtered = saleProducts.map(sp => {
+      const prod = products.find(p => p.id === sp.id);
+      return { ...prod, ...sp };
+    });
+  } else {
+    filtered = products.filter(p => p.category === category);
+  }
+
+  // Фільтри для акційної категорії
+  if (category === 'sale') {
+    // Добавляем фильтр только если его нет
+    if (!document.getElementById('sale-filter-bar')) {
+      const filterBar = document.createElement('div');
+      filterBar.className = 'mb-3 d-flex gap-2 flex-wrap';
+      filterBar.id = 'sale-filter-bar';
+      filterBar.innerHTML = `
+        <select id="sale-category-filter" class="form-select form-select-sm" style="max-width:180px;">
+          <option value="all">Всі категорії</option>
+          <option value="face">Обличчя</option>
+          <option value="hair">Волосся</option>
+          <option value="body">Тіло</option>
+          <option value="cosmetics">Косметика</option>
+        </select>
+        <select id="sale-discount-filter" class="form-select form-select-sm" style="max-width:180px;">
+          <option value="all">Всі знижки</option>
+          <option value="20">20% і більше</option>
+          <option value="15">15% і більше</option>
+        </select>
+      `;
+      list.parentElement.insertBefore(filterBar, list);
+
+      document.getElementById('sale-category-filter').addEventListener('change', function() {
+        const val = this.value;
+        let arr = saleProducts.map(sp => {
+          const prod = products.find(p => p.id === sp.id);
+          return { ...prod, ...sp };
+        });
+        if (val !== 'all') arr = arr.filter(p => p.category === val);
+        renderSaleCards(arr);
+      });
+      document.getElementById('sale-discount-filter').addEventListener('change', function() {
+        const val = parseInt(this.value);
+        let arr = saleProducts.map(sp => {
+          const prod = products.find(p => p.id === sp.id);
+          return { ...prod, ...sp };
+        });
+        if (!isNaN(val)) arr = arr.filter(p => p.discount >= val);
+        renderSaleCards(arr);
+      });
+    }
+    renderSaleCards(filtered);
+    return;
+  }
+
   filtered.forEach(product => {
+    const saleData = getSaleProductData(product.id);
+    let priceBlock = `<p class="card-text">${product.price} грн</p>`;
+    let sticker = '';
+    if (saleData) {
+      priceBlock = `<p class="card-text"><span style="text-decoration:line-through;color:#888;font-size:0.95em;">${saleData.oldPrice} грн</span> <span style="color:#e295b5;font-weight:600;">${saleData.price} грн</span></p>`;
+      sticker = `<span class="badge" style="background:#e295b5;color:#fff;position:absolute;top:12px;left:12px;font-size:1em;z-index:2;">${saleData.label}</span>`;
+    }
     const card = document.createElement('div');
     card.className = 'col-md-4 mb-4';
     card.innerHTML = `
-      <div class="card h-100 text-center">
+      <div class="card h-100 text-center position-relative">
+        ${sticker}
         <img src="${product.image}" class="card-img-top" alt="${product.name}" />
         <div class="card-body">
           <h5 class="card-title">${product.name}</h5>
-          <p class="card-text">${product.price} грн</p>
+          ${priceBlock}
           <button class="btn btn-outline-dark" onclick="addToCart(${product.id})">Додати</button>
+          ${saleData ? `<div style="font-size:0.95em;color:#e295b5;margin-top:6px;">Акція до ${saleData.until}</div>` : ''}
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function renderSaleCards(arr) {
+  const list = document.getElementById('product-list');
+  list.innerHTML = '';
+  arr.forEach(product => {
+    const priceBlock = `<p class="card-text"><span style="text-decoration:line-through;color:#888;font-size:0.95em;">${product.oldPrice} грн</span> <span style="color:#e295b5;font-weight:600;">${product.price} грн</span></p>`;
+    const sticker = `<span class="badge" style="background:#e295b5;color:#fff;position:absolute;top:12px;left:12px;font-size:1em;z-index:2;">${product.label}</span>`;
+    const card = document.createElement('div');
+    card.className = 'col-md-4 mb-4';
+    card.innerHTML = `
+      <div class="card h-100 text-center position-relative">
+        ${sticker}
+        <img src="${product.image}" class="card-img-top" alt="${product.name}" />
+        <div class="card-body">
+          <h5 class="card-title">${product.name}</h5>
+          ${priceBlock}
+          <button class="btn btn-outline-dark" onclick="addToCart(${product.id})">Додати</button>
+          <div style="font-size:0.95em;color:#e295b5;margin-top:6px;">Акція до ${product.until}</div>
         </div>
       </div>
     `;
@@ -190,6 +303,15 @@ document.getElementById('checkout-form').addEventListener('submit', (e) => {
   updateCartCount();
   bootstrap.Modal.getInstance(document.getElementById('cart-modal')).hide();
 });
+
+const saleBtn = document.getElementById('sale-btn');
+if (saleBtn) {
+  saleBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    renderProducts('sale');
+    setActiveCategory(null); // снимаем выделение с обычных категорий
+  });
+}
 
 window.onload = () => {
   loadCart();

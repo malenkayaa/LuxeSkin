@@ -28,7 +28,7 @@
   min-width: 32px;
   height: 32px;
   text-align: center;
-  background: #f0e5da;
+  background: #fffaf5;
   color: #fdbcd7;
   font-weight: 600;
   font-size: 1.1em;
@@ -67,7 +67,7 @@ body {
   font-family: 'Segoe UI', sans-serif;
   color: #333;
   padding-top: 80px;
-  background: linear-gradient(135deg, #faf2ea 0%, #f1d5e1 100%);
+  background: linear-gradient(135deg, #fffbf9 0%, #f1d5e1 100%);
   min-height: 100vh;
 }
 .navbar {
