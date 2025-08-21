@@ -1,3 +1,53 @@
+// Масив порад і простий Tip popup: вибираємо випадкову пораду та ховаємо через 15s
+const tips = [
+  'Наносьте сонцезахисний крем щодня, навіть у хмарну погоду.',
+  'Пийте достатньо води для сяйва шкіри зсередини.',
+  'Регулярно очищуйте косметичні пензлики для запобігання бактеріям.',
+  'Не лягайте спати з макіяжем — дайте шкірі відпочити.',
+  'Використовуйте зволожувач вранці і ввечері для оптимального догляду.',
+  'Спробуйте робити легкий масаж обличчя для покращення кровообігу.',
+  'Перевіряйте терміни придатності косметики і не використовуйте прострочене.',
+  'Підбирайте засоби відповідно до типу шкіри — це економить час і гроші.'
+];
+
+function showAutoHideTip() {
+  // вибір випадкової поради
+  const randomTip = (Array.isArray(tips) && tips.length) ? tips[Math.floor(Math.random() * tips.length)] : 'Порада дня: доглядайте за собою.';
+
+  // create minimal popup markup and insert into body
+  const tip = document.createElement('div');
+  tip.id = 'tip-of-day';
+  tip.className = 'tip-of-day';
+  tip.innerHTML = `
+    <div class="tip-content">
+      <div class="tip-text">${randomTip}</div>
+      <button class="tip-close" aria-label="Закрити">✖</button>
+    </div>
+  `;
+  document.body.appendChild(tip);
+
+  const closeBtn = tip.querySelector('.tip-close');
+  function hideTip() {
+    if (!tip) return;
+    tip.classList.add('hiding');
+    setTimeout(() => {
+      if (tip.parentElement) tip.parentElement.removeChild(tip);
+    }, 500);
+  }
+
+  // manual close
+  closeBtn.addEventListener('click', hideTip, { once: true });
+
+  // auto-hide after 15 seconds
+  setTimeout(hideTip, 15000);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', showAutoHideTip);
+} else {
+  showAutoHideTip();
+}
+
 // Дані товарів
 const products = [
   { id: 1, name: 'Крем Dr. Althea 345 Relief Cream', price: 850, category: 'face', image: 'https://beautysmart.com.ua/content/images/27/536x341l50nn0/dr.althea-345na-relief-cream-vidnovliuiuchyi-krem-z-antyoksydantamy-26791746246133.png' },
@@ -100,7 +150,7 @@ function renderProducts(category) {
       `;
       list.parentElement.insertBefore(filterBar, list);
 
-      document.getElementById('sale-category-filter').addEventListener('change', function() {
+      document.getElementById('sale-category-filter').addEventListener('change', function () {
         const val = this.value;
         let arr = saleProducts.map(sp => {
           const prod = products.find(p => p.id === sp.id);
@@ -109,7 +159,7 @@ function renderProducts(category) {
         if (val !== 'all') arr = arr.filter(p => p.category === val);
         renderSaleCards(arr);
       });
-      document.getElementById('sale-discount-filter').addEventListener('change', function() {
+      document.getElementById('sale-discount-filter').addEventListener('change', function () {
         const val = parseInt(this.value);
         let arr = saleProducts.map(sp => {
           const prod = products.find(p => p.id === sp.id);
@@ -298,15 +348,37 @@ if (searchInput) {
 }
 
 // Оформлення замовлення
+// Елементи модального підтвердження замовлення та тосту
+const orderConfirmModal = document.getElementById('order-confirm-modal');
+const closeOrderConfirmBtn = document.getElementById('close-order-confirm');
+const orderToast = document.getElementById('order-toast');
+const closeOrderToastBtn = document.getElementById('close-order-toast');
+
+if (closeOrderConfirmBtn) {
+  closeOrderConfirmBtn.addEventListener('click', () => {
+    if (orderConfirmModal) orderConfirmModal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  });
+}
+if (closeOrderToastBtn) {
+  closeOrderToastBtn.addEventListener('click', () => {
+    if (orderToast) orderToast.style.display = 'none';
+  });
+}
+
 const checkoutForm = document.getElementById('checkout-form');
 if (checkoutForm) {
-  checkoutForm.addEventListener('submit', function(e) {
+  checkoutForm.addEventListener('submit', function (e) {
     e.preventDefault();
     cart = [];
     saveCart();
     updateCartCount();
-    bootstrap.Modal.getInstance(document.getElementById('cart-modal')).hide();
-    orderConfirmModal.style.display = 'flex';
+    // Сховати модаль кошика (Bootstrap)
+    const cartModalEl = document.getElementById('cart-modal');
+    const cartModalInstance = cartModalEl ? bootstrap.Modal.getInstance(cartModalEl) : null;
+    if (cartModalInstance) cartModalInstance.hide();
+    // Показати своє підтвердження
+    if (orderConfirmModal) orderConfirmModal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
   });
 }
@@ -314,59 +386,25 @@ if (checkoutForm) {
 const saleBtn = document.getElementById('sale-btn');
 if (saleBtn) {
   saleBtn.addEventListener('click', (e) => {
+    const list = document.getElementById('product-list');
+    // Якщо на цій сторінці є контейнер для продуктів — відкриваємо секцію без переходу
+    if (list) {
+      e.preventDefault();
+      renderProducts('sale');
+      setActiveCategory(null); // снимаем выделение с обычных категорий
+      return;
+    }
+    // Інакше (ми на about.html або іншій сторінці) — перенаправляємо на головну з хешем
     e.preventDefault();
-    renderProducts('sale');
-    setActiveCategory(null); // снимаем выделение с обычных категорий
+    window.location.href = 'index.html#sale';
   });
 }
 
-// --- Блок «Совет дня» ---
-const tips = [
-  'Понеділок: Почніть тиждень з очищення та зволоження шкіри!',
-  'Вівторок: Не забувайте про захист SPF навіть у хмарну погоду.',
-  'Середа: Спробуйте маску для волосся для додаткового живлення.',
-  'Четвер: Влаштуйте собі вечір релаксу з улюбленим кремом для тіла.',
-  'П’ятниця: Оновіть манікюр або спробуйте новий відтінок помади.',
-  'Субота: Приділіть час догляду за обличчям — скраб чи пілінг.',
-  'Неділя: Відпочиньте, дайте шкірі відновитись, мінімум косметики.'
-];
-function getDayIndex() {
-  const d = new Date();
-  let day = d.getDay(); // 0=Sunday
-  return day === 0 ? 6 : day - 1;
-}
-function showTipOfDay() {
-  const tipBlock = document.getElementById('tip-of-day');
-  const tipText = document.getElementById('tip-text');
-  const closeBtn = document.getElementById('close-tip');
-  const dayIdx = getDayIndex();
-  tipText.textContent = tips[dayIdx];
-  // Проверка localStorage
-  const tipKey = 'tip_closed_' + new Date().toISOString().slice(0,10);
-  if (localStorage.getItem(tipKey)) {
-    tipBlock.style.display = 'none';
-  } else {
-    tipBlock.style.display = 'flex';
-  }
-  closeBtn.onclick = function() {
-    tipBlock.style.display = 'none';
-    localStorage.setItem(tipKey, '1');
-  };
-}
-window.addEventListener('DOMContentLoaded', showTipOfDay);
-
-window.onload = () => {
-  loadCart();
-  updateCartCount();
-  renderProducts('cosmetics');
-};
-
-// Модальне підтвердження замовлення
-const orderConfirmModal = document.getElementById('order-confirm-modal');
-const closeOrderConfirmBtn = document.getElementById('close-order-confirm');
-if (closeOrderConfirmBtn) {
-  closeOrderConfirmBtn.onclick = function() {
-    orderConfirmModal.style.display = 'none';
-    document.body.style.overflow = '';
-  };
-}
+// Автоматично відкривати категорію 'Акції та знижки' при старті сайту
+document.addEventListener('DOMContentLoaded', () => {
+  // Показуємо акційні товари відразу
+  renderProducts('sale');
+  // Знімаємо виділення з звичайних категорій
+  setActiveCategory(null);
+  // ...кнопка лишається у своєму первісному стані
+});
