@@ -316,6 +316,41 @@ if (saleBtn) {
   });
 }
 
+// --- Блок «Совет дня» ---
+const tips = [
+  'Понеділок: Почніть тиждень з очищення та зволоження шкіри!',
+  'Вівторок: Не забувайте про захист SPF навіть у хмарну погоду.',
+  'Середа: Спробуйте маску для волосся для додаткового живлення.',
+  'Четвер: Влаштуйте собі вечір релаксу з улюбленим кремом для тіла.',
+  'П’ятниця: Оновіть манікюр або спробуйте новий відтінок помади.',
+  'Субота: Приділіть час догляду за обличчям — скраб чи пілінг.',
+  'Неділя: Відпочиньте, дайте шкірі відновитись, мінімум косметики.'
+];
+function getDayIndex() {
+  const d = new Date();
+  let day = d.getDay(); // 0=Sunday
+  return day === 0 ? 6 : day - 1;
+}
+function showTipOfDay() {
+  const tipBlock = document.getElementById('tip-of-day');
+  const tipText = document.getElementById('tip-text');
+  const closeBtn = document.getElementById('close-tip');
+  const dayIdx = getDayIndex();
+  tipText.textContent = tips[dayIdx];
+  // Проверка localStorage
+  const tipKey = 'tip_closed_' + new Date().toISOString().slice(0,10);
+  if (localStorage.getItem(tipKey)) {
+    tipBlock.style.display = 'none';
+  } else {
+    tipBlock.style.display = 'flex';
+  }
+  closeBtn.onclick = function() {
+    tipBlock.style.display = 'none';
+    localStorage.setItem(tipKey, '1');
+  };
+}
+window.addEventListener('DOMContentLoaded', showTipOfDay);
+
 window.onload = () => {
   loadCart();
   updateCartCount();

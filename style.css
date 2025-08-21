@@ -76,6 +76,42 @@
   box-shadow: 0 0 0 2px #ffe4ef;
   outline: none;
 }
+/* Стилизация выпадающих фильтров */
+.form-select.form-select-sm {
+  background: #ffffff;
+  color: #c9819c;
+  border: 1px solid #e295b5;
+  border-radius: 30px;
+  padding: 8px 24px;
+  font-size: 1em;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0 4px;
+  min-height: 40px;
+  box-shadow: 0 2px 12px rgba(226,149,181,0.07);
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+}
+.form-select.form-select-sm:focus {
+  border-color: #e295b5;
+  outline: none;
+  box-shadow: 0 0 0 2px #f7b6d2;
+}
+.form-select.form-select-sm:hover {
+  background: #e295b5;
+  color: #fff;
+  transform: scale(1.07);
+}
+.form-select.form-select-sm option {
+  padding: 8px 16px;
+  font-size: 1em;
+  border-radius: 18px;
+}
+@media (max-width: 576px) {
+  .form-select.form-select-sm {
+    font-size: 0.95em;
+    padding: 8px 12px;
+    min-height: 36px;
+  }
+}
 /* Центрування форми оформлення замовлення у кошику */
 #checkout-form {
   display: flex;
