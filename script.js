@@ -298,14 +298,18 @@ if (searchInput) {
 }
 
 // Оформлення замовлення
-document.getElementById('checkout-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  alert('Замовлення надіслано!');
-  cart = [];
-  saveCart();
-  updateCartCount();
-  bootstrap.Modal.getInstance(document.getElementById('cart-modal')).hide();
-});
+const checkoutForm = document.getElementById('checkout-form');
+if (checkoutForm) {
+  checkoutForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    cart = [];
+    saveCart();
+    updateCartCount();
+    bootstrap.Modal.getInstance(document.getElementById('cart-modal')).hide();
+    orderConfirmModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+}
 
 const saleBtn = document.getElementById('sale-btn');
 if (saleBtn) {
@@ -356,3 +360,13 @@ window.onload = () => {
   updateCartCount();
   renderProducts('cosmetics');
 };
+
+// Модальне підтвердження замовлення
+const orderConfirmModal = document.getElementById('order-confirm-modal');
+const closeOrderConfirmBtn = document.getElementById('close-order-confirm');
+if (closeOrderConfirmBtn) {
+  closeOrderConfirmBtn.onclick = function() {
+    orderConfirmModal.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+}

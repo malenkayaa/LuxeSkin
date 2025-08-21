@@ -63,6 +63,32 @@
     </div>
   </div>
 
+  <!-- Модальне вікно підтвердження замовлення -->
+  <div class="modal" id="order-confirm-modal" tabindex="-1" style="display:none;">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius:18px;box-shadow:0 8px 32px rgba(226,149,181,0.18);">
+        <div class="modal-header" style="border-bottom:none;justify-content:center;">
+          <h5 class="modal-title" style="color:#e295b5;font-weight:600;">Дякуємо!</h5>
+        </div>
+        <div class="modal-body text-center" style="font-size:1.15em;color:#e295b5;">
+          Ваше замовлення прийнято і знаходиться в обробці.<br>Ми зв'яжемося з вами найближчим часом.
+        </div>
+        <div class="modal-footer" style="justify-content:center;border-top:none;">
+          <button class="btn animated-btn" id="close-order-confirm" style="min-width:120px;">Закрити</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Маленьке повідомлення про підтвердження замовлення -->
+  <div id="order-toast" class="order-toast" style="display:none;">
+    <div class="order-toast-content">
+      <div class="order-toast-title">Дякуємо!</div>
+      <div class="order-toast-text">Ваше замовлення прийнято та знаходиться в обробці.<br>Ми зв’яжемося з вами найближчим часом.</div>
+      <button class="btn animated-btn" id="close-order-toast" style="margin-top:12px;min-width:100px;">Закрити</button>
+    </div>
+  </div>
+
   <header class="hero">
     <div class="container">
       <h2 class="title">Магазин LuxeSkin</h2>

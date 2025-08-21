@@ -399,3 +399,50 @@ body {
     font-size: 1.2rem;
   }
 }
+.order-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3000;
+  background: none !important;
+  pointer-events: none;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Убираем затемнение для всех .modal, кроме корзины */
+#order-confirm-modal, #order-toast {
+  background: none !important;
+}
+.order-toast-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(226,149,181,0.18);
+  padding: 32px 32px 24px 32px;
+  min-width: 280px;
+  max-width: 90vw;
+  text-align: center;
+  color: #e295b5;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.08em;
+  pointer-events: auto;
+}
+.order-toast-title {
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #e295b5;
+  margin-bottom: 10px;
+}
+.order-toast-text {
+  margin-bottom: 16px;
+}
+@media (max-width: 576px) {
+  .order-toast-content {
+    padding: 18px 8px 16px 8px;
+    min-width: 180px;
+    font-size: 0.98em;
+  }
+}
